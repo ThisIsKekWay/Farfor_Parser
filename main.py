@@ -127,8 +127,8 @@ def make_it_excel(data, city):
     wb.save(f'Фарфор {city}.xlsx')
 
 
-def make_it_json(data):
-    with open(f'{datetime.datetime.now().date()}.json', 'w', encoding='utf-8') as f:
+def make_it_json(data, city):
+    with open(f'{city} {datetime.datetime.now().date()}.json', 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
 
 
@@ -149,6 +149,14 @@ if __name__ == '__main__':
     cats = get_categories(url)
     print('Категории получены. Собираю данные о товарах...')
     data = get_items(url, cats)
-    print('Данные собраны. Сохраняю в Excel...')
-    make_it_excel(data, ur_city)
-    # make_it_json(data)
+    print('Данные собраны. Выберите формат экспорта:\n 1. Excel\n 2. JSON')
+    ans = input()
+    while ans != '1' and ans != '2':
+        print('Неверная команда')
+        ans = input()
+    if ans == '1':
+        make_it_excel(data, ur_city)
+    elif ans == '2':
+        make_it_json(data, ur_city)
+    else:
+        print('Неверная команда')
