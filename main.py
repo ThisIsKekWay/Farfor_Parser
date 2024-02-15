@@ -7,10 +7,14 @@ from openpyxl.formatting.rule import ColorScaleRule
 from openpyxl.styles import Font
 import os
 
+HEADERS = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; '
+                         'WOW64) AppleWebKit/537.36 (KHTML, like Gecko) '
+                         'Chrome/56.0.2924.76 Safari/537.36'}
+
 
 def get_url(url):
     while True:
-        response = requests.get(f'{url}')
+        response = requests.get(f'{url}', headers=HEADERS)
         if response.status_code == 200:
             return response.text
         else:
@@ -19,8 +23,8 @@ def get_url(url):
 
 
 def cities():
-    with open('cities.json', 'r', encoding='utf-8') as f:
-        data = json.load(f)
+    url = 'https://api.farfor.ru/v3/842b03f5-7db9-4850-9cb1-407f894abf5e/cities/'
+    data = requests.get(url, headers=HEADERS).json()
     all_cities = {}
     for city in data:
         all_cities[city['name']] = city['domain']
