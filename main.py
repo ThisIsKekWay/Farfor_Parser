@@ -136,9 +136,12 @@ def make_it_json(data, city):
         json.dump(data, f, ensure_ascii=False, indent=4)
 
 
-def choose_ur_city():
-    for i, city in enumerate(cities.keys()):
-        print(f'{i + 1}. {city}')
+def choose_ur_city(cities_dict):
+    max_len = max(len(city) for city in cities_dict)
+    for i, city in enumerate(cities_dict.keys()):
+        print(f'{i + 1}. {city}  ', end=' ' * (max_len - len(city) - len(str(i)) + 2))
+        if (i + 1) % 5 == 0:
+            print()
 
     print('Введите номер города:\n')
     return int(input())
@@ -146,7 +149,7 @@ def choose_ur_city():
 
 if __name__ == '__main__':
     cities = cities()
-    city = choose_ur_city()
+    city = choose_ur_city(cities)
     ur_city = list(cities.keys())[city - 1]
     url = f'https://{cities[list(cities.keys())[city - 1]]}'
     print(f'Выбранный город: {ur_city}. Подключаюсь к домену {url}...')
